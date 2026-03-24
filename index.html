@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monetising &amp; Distributing Software</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+<style>
+  :root {
+    --amber:  #f5a623;
+    --green:  #4ecb8d;
+    --purple: #a78bfa;
+    --blue:   #60a5fa;
+    --red:    #f87171;
+    --bg:     #0a0a0f;
+    --bg2:    #10101a;
+    --bg3:    #181824;
+    --border: #2a2a3a;
+    --text:   #e8e8f0;
+    --muted:  #8888a8;
+  }
+
+  .reveal-viewport { background: var(--bg); }
+  .reveal .slides section { background: transparent; }
+
+  .reveal { font-family: 'DM Sans', sans-serif; color: var(--text); }
+  .reveal h1, .reveal h2, .reveal h3 { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .reveal h1 { font-size: 1.6em; color: var(--amber); line-height: 1.1; }
+  .reveal h2 { font-size: 1.1em; color: var(--amber); margin-bottom: .2em; }
+  .reveal h3 { font-size: .78em; color: var(--green); margin-bottom: .15em; }
+  .reveal p  { font-size: .56em; line-height: 1.45; color: var(--text); }
+  .reveal li { font-size: .54em; line-height: 1.45; margin-bottom: .1em; }
+  .reveal code { font-family: 'JetBrains Mono', monospace; font-size: .72em; }
+  .reveal pre  { box-shadow: none; background: var(--bg3); border: 1px solid var(--border);
+                 border-radius: 6px; padding: .3em .5em; margin: .25em 0; }
+  .reveal pre code { font-size: .52em; line-height: 1.35; background: transparent; color: #cdd6f4; }
+
+  /* ── slide chrome ── */
+  .slide-hdr {
+    display: flex; align-items: center; gap: .4em;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: .2em; margin-bottom: .3em;
+  }
+  .slide-hdr .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .42em; font-weight: 500;
+    color: var(--bg); background: var(--amber);
+    padding: .1em .4em; border-radius: 3px;
+    letter-spacing: .04em;
+  }
+  .slide-hdr h2 { margin: 0; font-size: .95em; }
+
+  /* ── two-column ── */
+  .cols   { display: grid; gap: .5em; }
+  .cols-2 { grid-template-columns: 1fr 1fr; }
+  .cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .cols-6040 { grid-template-columns: 6fr 4fr; }
+  .cols-4060 { grid-template-columns: 4fr 6fr; }
+
+  /* ── cards ── */
+  .card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 6px; padding: .35em .6em;
+  }
+  .card.amber { border-left: 3px solid var(--amber); }
+  .card.green { border-left: 3px solid var(--green); }
+  .card.purple{ border-left: 3px solid var(--purple); }
+  .card.blue  { border-left: 3px solid var(--blue); }
+  .card.red   { border-left: 3px solid var(--red); }
+  .card h3 { font-size: .64em; margin: 0 0 .12em; }
+  .card p  { font-size: .52em; margin: 0; color: #b8b8d0; }
+  .card ul { margin: 0; padding-left: 1em; }
+  .card li { font-size: .52em; color: #b8b8d0; margin-bottom: .02em; }
+
+  /* ── table ── */
+  .reveal table { width: 100%; border-collapse: collapse; font-size: .5em; }
+  .reveal table th { background: var(--bg3); color: var(--amber); font-weight: 600;
+                     padding: .2em .4em; border: 1px solid var(--border); text-align: left; }
+  .reveal table td { padding: .18em .4em; border: 1px solid var(--border); color: #ccc; }
+  .reveal table tr:nth-child(even) td { background: #0e0e18; }
+
+  /* ── accent spans ── */
+  .a  { color: var(--amber); font-weight: 600; }
+  .g  { color: var(--green); font-weight: 600; }
+  .p  { color: var(--purple); font-weight: 600; }
+  .b  { color: var(--blue); font-weight: 600; }
+  .r  { color: var(--red); font-weight: 600; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* ── SVG graph diagrams ── */
+  svg.diagram { display: block; margin: 0 auto; overflow: visible; }
+
+  /* ── pill badges ── */
+  .pill {
+    display: inline-block; font-family: 'JetBrains Mono', monospace;
+    font-size: .44em; padding: .08em .4em; border-radius: 99px;
+    border: 1px solid; margin: 0 .08em;
+  }
+  .pill.amber { color: var(--amber); border-color: var(--amber); }
+  .pill.green { color: var(--green); border-color: var(--green); }
+  .pill.purple{ color: var(--purple); border-color: var(--purple); }
+  .pill.blue  { color: var(--blue); border-color: var(--blue); }
+
+  /* ── footer — hidden; was overlapping scrollable content ── */
+  .reveal .slide-footer { display: none; }
+  /* title slide special */
+  .title-slide h1 { font-size: 1.8em; }
+  .title-slide .subtitle {
+    font-size: .7em; color: var(--green); font-family: 'DM Sans', sans-serif;
+    font-weight: 300; letter-spacing: .04em; margin: .3em 0 .6em;
+  }
+  .title-slide .meta { font-size: .48em; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+
+  /* ── super-step animator ── */
+  .ss-row {
+    display: flex; gap: .25em; align-items: center;
+    margin: .1em 0; font-size: .55em; font-family: 'JetBrains Mono', monospace;
+  }
+  .ss-node {
+    padding: .2em .55em; border-radius: 5px; font-size: .9em;
+    background: var(--bg3); border: 1px solid var(--border); color: var(--text);
+  }
+  .ss-node.active { background: #1a2a1a; border-color: var(--green); color: var(--green); }
+  .ss-node.done   { background: #1a1a2a; border-color: var(--purple); color: var(--purple); }
+  .ss-arrow { color: var(--amber); }
+  .ss-label { font-size: .8em; color: var(--muted); margin-left: .3em; }
+
+  /* reduce default margins */
+  .reveal ul, .reveal ol { margin: .15em 0 .15em 1em; }
+.reveal .slides > section { display: flex !important; flex-direction: column !important; overflow-y: auto !important; align-items: stretch !important; justify-content: flex-start !important; }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+
+<!-- ═══════════════════════════════ SLIDE 01 — TITLE ═══════════════════════════════ -->
+<section class="title-slide" data-background-color="#0a0a0f">
+  <div style="text-align:left; max-width:820px; margin:0 auto; padding: 1em 0;">
+    <div style="font-family:'JetBrains Mono',monospace; font-size:.5em; color:var(--muted); margin-bottom:.4em; letter-spacing:.1em;">
+      TECHNICAL PRESENTATION
+    </div>
+    <h1>Monetising &amp;<br>Distributing Software</h1>
+    <div class="subtitle">Turning your code into a product people can find, use, and pay for</div>
+    <div style="width:60px; height:3px; background:var(--amber); margin-bottom:1.4em;"></div>
+    <div style="display:flex; gap:1.2em; flex-wrap:wrap; margin-bottom:1em;">
+      <span class="pill amber">Business</span>
+      <span class="pill green">Distribution</span>
+      <span class="pill purple">Monetisation</span>
+    </div>
+    <div class="ss-row" style="margin-top:0.6em;">
+      <span class="ss-node active">Build</span>
+      <span class="ss-arrow">&rarr;</span>
+      <span class="ss-node active">Package</span>
+      <span class="ss-arrow">&rarr;</span>
+      <span class="ss-node active">Distribute</span>
+      <span class="ss-arrow">&rarr;</span>
+      <span class="ss-node done">Monetise</span>
+      <span class="ss-arrow">&rarr;</span>
+      <span class="ss-node done">Scale</span>
+    </div>
+    <p style="max-width:620px; color:#a0a0c0; font-size:.56em; line-height:1.5; margin-top:1em;">
+      From open-source libraries to SaaS platforms &mdash; every path from code to revenue
+    </p>
+    <div class="meta" style="margin-top:1.4em;">
+      License &nbsp;&middot;&nbsp; Ship &nbsp;&middot;&nbsp; Charge &nbsp;&middot;&nbsp; Grow
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 02 — AGENDA ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">01</span>
+    <h2>Topics</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Distribution Models</h3>
+        <ul>
+          <li>Free vs paid &mdash; the spectrum</li>
+          <li>Open source licensing</li>
+          <li>Package managers &amp; libraries</li>
+          <li>App stores &amp; marketplaces</li>
+          <li>Desktop app distribution</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:0.5em;">
+        <h3 class="g">Monetisation Strategies</h3>
+        <ul>
+          <li>SaaS &amp; recurring revenue</li>
+          <li>Payment integration (Stripe, Paddle)</li>
+          <li>Subscription &amp; pricing tiers</li>
+          <li>API monetisation</li>
+          <li>Licensing &amp; license keys</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Building the Business</h3>
+        <ul>
+          <li>Building a SaaS (auth, billing, multi-tenancy)</li>
+          <li>Landing pages &amp; marketing basics</li>
+          <li>Analytics &amp; metrics (MRR, churn, LTV)</li>
+          <li>Marketplace &amp; platform distribution</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:0.5em;">
+        <h3 class="b">Practical Concerns</h3>
+        <ul>
+          <li>Legal: ToS, privacy, GDPR, tax</li>
+          <li>Scaling from free to paid</li>
+          <li>Common indie developer mistakes</li>
+          <li>Summary &amp; further reading</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 03 — FREE VS PAID ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">02</span>
+    <h2>Free vs Paid Distribution</h2>
+  </div>
+  <p>Software distribution exists on a <span class="a">spectrum</span> &mdash; from fully open to fully proprietary.</p>
+  <div class="ss-row" style="margin:.4em 0; justify-content:center;">
+    <span class="ss-node active">Fully Open Source</span>
+    <span class="ss-arrow">&rarr;</span>
+    <span class="ss-node">Open Core</span>
+    <span class="ss-arrow">&rarr;</span>
+    <span class="ss-node">Freemium</span>
+    <span class="ss-arrow">&rarr;</span>
+    <span class="ss-node">Free Trial</span>
+    <span class="ss-arrow">&rarr;</span>
+    <span class="ss-node done">Paid Only</span>
+  </div>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card green">
+      <h3 class="g">Open Source</h3>
+      <ul>
+        <li>Code is public, anyone can use/modify</li>
+        <li>Revenue via support, hosting, consulting</li>
+        <li>Examples: Linux, PostgreSQL, Redis</li>
+        <li>Builds trust and community</li>
+      </ul>
+    </div>
+    <div class="card amber">
+      <h3 class="a">Freemium / Open Core</h3>
+      <ul>
+        <li>Core product free, premium features paid</li>
+        <li>Most popular SaaS model today</li>
+        <li>Examples: Slack, Notion, GitLab</li>
+        <li>Conversion rates typically 2-5%</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Paid Only</h3>
+      <ul>
+        <li>No free tier &mdash; pay to access</li>
+        <li>Higher quality signal, lower volume</li>
+        <li>Examples: Sublime Text, JetBrains IDEs</li>
+        <li>Works when value is clear and proven</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card blue" style="margin-top:.4em;">
+    <h3 class="b">Key Insight</h3>
+    <p>Free distribution builds <span class="a">top of funnel</span>. Paid features capture <span class="g">value</span>. The best businesses combine both &mdash; give away what creates trust, charge for what creates ROI.</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 04 — OPEN SOURCE LICENSING ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">03</span>
+    <h2>Open Source Licensing</h2>
+  </div>
+  <p>Your license determines how others can use, modify, and redistribute your code.</p>
+  <table>
+    <thead>
+      <tr>
+        <th>License</th>
+        <th>Permissions</th>
+        <th>Conditions</th>
+        <th>Copyleft?</th>
+        <th>Commercial Use</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="g">MIT</span></td>
+        <td>Use, modify, distribute</td>
+        <td>Include license text</td>
+        <td>No</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td><span class="b">Apache 2.0</span></td>
+        <td>Use, modify, distribute, patent grant</td>
+        <td>Include license, state changes</td>
+        <td>No</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td><span class="a">GPL v3</span></td>
+        <td>Use, modify, distribute</td>
+        <td>Derivatives must also be GPL</td>
+        <td><span class="r">Strong</span></td>
+        <td>Yes (with conditions)</td>
+      </tr>
+      <tr>
+        <td><span class="r">AGPL v3</span></td>
+        <td>Use, modify, distribute</td>
+        <td>Network use = distribution</td>
+        <td><span class="r">Strongest</span></td>
+        <td>Yes (with conditions)</td>
+      </tr>
+      <tr>
+        <td><span class="p">BSL / SSPL</span></td>
+        <td>Use, modify (non-production)</td>
+        <td>No competing hosted service</td>
+        <td>N/A</td>
+        <td>Restricted</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card green">
+      <h3 class="g">Permissive (MIT / Apache)</h3>
+      <p>Maximum adoption. Companies can use your code without legal fear. Best for libraries and tools you want widely used.</p>
+    </div>
+    <div class="card red">
+      <h3 class="r">Copyleft (GPL / AGPL)</h3>
+      <p>Protects the commons. Forces derivatives to remain open. AGPL closes the "SaaS loophole" &mdash; used by MongoDB (before SSPL), Grafana.</p>
+    </div>
+  </div>
+  <pre><code class="language-plaintext">MIT License
+
+Copyright (c) 2026 Your Name
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software... [the standard MIT text]</code></pre>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 05 — PACKAGE MANAGERS ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">04</span>
+    <h2>Package Managers &amp; Libraries</h2>
+  </div>
+  <p>The simplest way to distribute code for free: publish to a <span class="a">package registry</span>.</p>
+  <div class="cols cols-2">
+    <div>
+      <table>
+        <thead>
+          <tr><th>Ecosystem</th><th>Registry</th><th>CLI</th><th>Packages</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="a">JavaScript</span></td><td>npmjs.com</td><td><code>npm publish</code></td><td>~3M</td></tr>
+          <tr><td><span class="b">Python</span></td><td>pypi.org</td><td><code>twine upload</code></td><td>~500K</td></tr>
+          <tr><td><span class="g">Rust</span></td><td>crates.io</td><td><code>cargo publish</code></td><td>~150K</td></tr>
+          <tr><td><span class="p">Go</span></td><td>pkg.go.dev</td><td><code>go mod</code></td><td>Decentralised</td></tr>
+          <tr><td><span class="r">Ruby</span></td><td>rubygems.org</td><td><code>gem push</code></td><td>~180K</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3 class="a">Publishing checklist</h3>
+        <ul>
+          <li>Choose a clear, unique package name</li>
+          <li>Semantic versioning (semver)</li>
+          <li>Write a good README</li>
+          <li>Include TypeScript types / type hints</li>
+          <li>Set up CI to auto-publish on tag</li>
+          <li>Add a LICENSE file</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:.2em;"><span class="g">Example:</span> <code>package.json</code> for publishing an npm library</p>
+  <pre><code class="language-json">{
+  "name": "@yourorg/utils",
+  "version": "1.2.0",
+  "description": "Utility functions for data processing",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": ["dist"],
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/yourorg/utils" },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "publishConfig": { "access": "public" }
+}</code></pre>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 06 — APP STORES ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">05</span>
+    <h2>App Stores &amp; Marketplaces</h2>
+  </div>
+  <p>Walled gardens give you <span class="a">discovery</span> and <span class="g">trust</span>, but take a cut and impose rules.</p>
+  <table>
+    <thead>
+      <tr><th>Store</th><th>Fee</th><th>Annual Cost</th><th>Review Process</th><th>Key Rules</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="a">Apple App Store</span></td>
+        <td>15-30%</td>
+        <td>$99/yr</td>
+        <td>Manual, 1-7 days</td>
+        <td>Must use Apple IAP for digital goods</td>
+      </tr>
+      <tr>
+        <td><span class="g">Google Play</span></td>
+        <td>15-30%</td>
+        <td>$25 one-time</td>
+        <td>Automated + manual</td>
+        <td>Sideloading allowed on Android</td>
+      </tr>
+      <tr>
+        <td><span class="p">Steam</span></td>
+        <td>20-30%</td>
+        <td>$100/game</td>
+        <td>Steam Direct</td>
+        <td>Revenue split improves at $10M+</td>
+      </tr>
+      <tr>
+        <td><span class="b">Chrome Web Store</span></td>
+        <td>Free (5% for paid)</td>
+        <td>$5 one-time</td>
+        <td>Automated</td>
+        <td>Manifest V3 required</td>
+      </tr>
+      <tr>
+        <td><span class="r">VS Code Marketplace</span></td>
+        <td>Free</td>
+        <td>Free</td>
+        <td>Automated</td>
+        <td>Open marketplace, can monetise externally</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card red">
+      <h3 class="r">The 30% Problem</h3>
+      <p>Apple and Google taking 30% of digital goods has driven lawsuits (Epic v. Apple) and pushed developers towards <span class="a">web-based payment</span> flows. The EU Digital Markets Act is forcing changes.</p>
+    </div>
+    <div class="card green">
+      <h3 class="g">Alternatives to App Stores</h3>
+      <ul>
+        <li>PWAs (Progressive Web Apps) &mdash; no store needed</li>
+        <li>Direct download with code signing</li>
+        <li>Homebrew / apt repositories for CLI tools</li>
+        <li>Sideloading on Android</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 07 — SaaS MODEL ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">06</span>
+    <h2>Software-as-a-Service (SaaS)</h2>
+  </div>
+  <p>SaaS is the <span class="a">dominant model</span> for monetising software. Users pay recurring fees; you host and maintain the service.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Why SaaS Won</h3>
+        <ul>
+          <li><span class="g">Recurring revenue</span> &mdash; predictable cash flow</li>
+          <li>No piracy &mdash; you control access</li>
+          <li>Continuous updates without user action</li>
+          <li>Usage data drives product decisions</li>
+          <li>Lower barrier to entry for users</li>
+          <li>Easier to upsell and expand revenue</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.4em;">
+        <h3 class="p">SaaS Metrics</h3>
+        <ul>
+          <li><span class="a">ARR</span> = Annual Recurring Revenue</li>
+          <li><span class="g">MRR</span> = Monthly Recurring Revenue</li>
+          <li><span class="r">Churn</span> = % customers lost per period</li>
+          <li><span class="b">NRR</span> = Net Revenue Retention (&gt;100% is great)</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <h3 class="g" style="font-size:.62em;">Typical SaaS Architecture</h3>
+      <div class="ss-row" style="justify-content:center;">
+        <span class="ss-node active">Browser / App</span>
+        <span class="ss-arrow">&rarr;</span>
+        <span class="ss-node">CDN / LB</span>
+      </div>
+      <div class="ss-row" style="justify-content:center;">
+        <span class="ss-arrow">&darr;</span>
+      </div>
+      <div class="ss-row" style="justify-content:center;">
+        <span class="ss-node">API Gateway</span>
+        <span class="ss-arrow">&rarr;</span>
+        <span class="ss-node active">Auth Service</span>
+      </div>
+      <div class="ss-row" style="justify-content:center;">
+        <span class="ss-arrow">&darr;</span>
+      </div>
+      <div class="ss-row" style="justify-content:center;">
+        <span class="ss-node done">App Server(s)</span>
+        <span class="ss-arrow">&rarr;</span>
+        <span class="ss-node done">Database</span>
+      </div>
+      <div class="ss-row" style="justify-content:center;">
+        <span class="ss-arrow">&darr;</span>
+      </div>
+      <div class="ss-row" style="justify-content:center;">
+        <span class="ss-node">Billing / Stripe</span>
+        <span class="ss-arrow">&rarr;</span>
+        <span class="ss-node">Email / Notifications</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 08 — BUILDING A SaaS ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">07</span>
+    <h2>Building a SaaS &mdash; The Tech Stack</h2>
+  </div>
+  <div class="cols cols-3">
+    <div class="card amber">
+      <h3 class="a">Authentication</h3>
+      <ul>
+        <li><span class="g">Clerk</span> &mdash; drop-in auth UI</li>
+        <li><span class="g">Auth.js</span> (NextAuth) &mdash; open source</li>
+        <li><span class="g">Supabase Auth</span> &mdash; with DB</li>
+        <li><span class="g">Firebase Auth</span> &mdash; Google</li>
+        <li>OAuth 2.0 / OIDC standard</li>
+        <li>Magic links, passkeys, SSO</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">Multi-tenancy</h3>
+      <ul>
+        <li><span class="a">Shared DB</span> &mdash; tenant_id column</li>
+        <li><span class="a">Schema per tenant</span> &mdash; isolation</li>
+        <li><span class="a">DB per tenant</span> &mdash; max isolation</li>
+        <li>Row-Level Security (RLS) in Postgres</li>
+        <li>Middleware to inject tenant context</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Billing</h3>
+      <ul>
+        <li><span class="b">Stripe</span> &mdash; industry standard</li>
+        <li><span class="b">Paddle</span> &mdash; merchant of record</li>
+        <li><span class="b">LemonSqueezy</span> &mdash; simpler Paddle</li>
+        <li>Webhooks for payment events</li>
+        <li>Subscription lifecycle management</li>
+      </ul>
+    </div>
+  </div>
+  <div class="cols cols-2" style="margin-top:.3em;">
+    <div class="card blue">
+      <h3 class="b">Modern SaaS Starter Stacks</h3>
+      <table>
+        <thead><tr><th>Stack</th><th>Components</th></tr></thead>
+        <tbody>
+          <tr><td><span class="a">Next.js + Vercel</span></td><td>React, Prisma, Stripe, Clerk</td></tr>
+          <tr><td><span class="g">Django + Railway</span></td><td>Python, Postgres, Stripe, django-allauth</td></tr>
+          <tr><td><span class="p">Rails + Fly.io</span></td><td>Ruby, Postgres, Stripe, Devise</td></tr>
+          <tr><td><span class="b">Go + Hetzner</span></td><td>HTMX, SQLite/Postgres, Stripe</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card red">
+      <h3 class="r">Multi-tenancy with RLS</h3>
+      <pre><code class="language-sql">-- Postgres Row-Level Security
+ALTER TABLE projects ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY tenant_isolation ON projects
+  USING (tenant_id = current_setting('app.tenant_id')::uuid);
+
+-- Set in middleware before each request
+SET app.tenant_id = 'abc-123-def';</code></pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 09 — PAYMENT INTEGRATION ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">08</span>
+    <h2>Payment Integration</h2>
+  </div>
+  <div class="cols cols-3" style="margin-bottom:.2em;">
+    <div class="card amber">
+      <h3 class="a">Stripe</h3>
+      <ul>
+        <li>Payment processor &mdash; you are merchant</li>
+        <li>You handle tax, invoicing, compliance</li>
+        <li>2.9% + 30c per transaction</li>
+        <li>Best API, most flexibility</li>
+        <li>Stripe Tax, Billing, Connect</li>
+      </ul>
+    </div>
+    <div class="card green">
+      <h3 class="g">Paddle / LemonSqueezy</h3>
+      <ul>
+        <li><span class="a">Merchant of Record</span> (MoR)</li>
+        <li>They handle tax, VAT, invoicing</li>
+        <li>5% + 50c per transaction</li>
+        <li>Simpler &mdash; ideal for solo devs</li>
+        <li>They are the seller, you are the vendor</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">When to Use Which</h3>
+      <ul>
+        <li><span class="a">Stripe</span>: full control, scale, complex billing</li>
+        <li><span class="g">Paddle</span>: don't want to deal with tax</li>
+        <li><span class="b">Gumroad</span>: one-off digital products</li>
+        <li>MoR simplifies global sales tax enormously</li>
+      </ul>
+    </div>
+  </div>
+  <p><span class="a">Stripe Checkout</span> &mdash; create a payment session in ~20 lines:</p>
+  <div class="cols cols-2">
+    <div>
+      <pre><code class="language-javascript">// Server: Create Stripe Checkout session
+import Stripe from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+app.post('/api/checkout', async (req, res) => {
+  const session = await stripe.checkout.sessions.create({
+    mode: 'subscription',
+    line_items: [{
+      price: 'price_1234abc',  // from Stripe dashboard
+      quantity: 1,
+    }],
+    success_url: 'https://app.example.com/success',
+    cancel_url: 'https://app.example.com/pricing',
+    customer_email: req.user.email,
+  });
+  res.json({ url: session.url });
+});</code></pre>
+    </div>
+    <div>
+      <pre><code class="language-javascript">// Server: Handle Stripe webhooks
+app.post('/webhooks/stripe', async (req, res) => {
+  const event = stripe.webhooks.constructEvent(
+    req.body,
+    req.headers['stripe-signature'],
+    process.env.STRIPE_WEBHOOK_SECRET
+  );
+
+  switch (event.type) {
+    case 'checkout.session.completed':
+      await activateSubscription(event.data.object);
+      break;
+    case 'invoice.payment_failed':
+      await handleFailedPayment(event.data.object);
+      break;
+    case 'customer.subscription.deleted':
+      await deactivateSubscription(event.data.object);
+      break;
+  }
+  res.json({ received: true });
+});</code></pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 10 — SUBSCRIPTION MODELS ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">09</span>
+    <h2>Subscription Models &amp; Pricing Psychology</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <table>
+        <thead><tr><th>Tier</th><th>Price</th><th>Target</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td><span class="g">Free</span></td><td>$0</td><td>Everyone</td><td>Top of funnel, virality</td></tr>
+          <tr><td><span class="b">Individual</span></td><td>$9-29/mo</td><td>Prosumers</td><td>Core revenue</td></tr>
+          <tr><td><span class="a">Team</span></td><td>$15-49/seat/mo</td><td>Small teams</td><td>Expansion revenue</td></tr>
+          <tr><td><span class="p">Enterprise</span></td><td>Custom</td><td>Large orgs</td><td>High ACV, SSO, SLAs</td></tr>
+        </tbody>
+      </table>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3 class="a">Pricing Psychology</h3>
+        <ul>
+          <li><span class="g">Anchor high</span> &mdash; show enterprise first, then mid-tier feels cheap</li>
+          <li><span class="b">3-tier rule</span> &mdash; most people pick the middle</li>
+          <li><span class="p">Annual discount</span> &mdash; offer 2 months free (17% off)</li>
+          <li><span class="r">Price on value</span>, not cost &mdash; if you save them $10K, charge $1K</li>
+          <li><span class="a">Avoid $0</span> for B2B &mdash; free plans attract the wrong users</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">The Free Tier Trap</h3>
+        <p>Free users cost you money (hosting, support) but rarely convert. Limit free tiers carefully:</p>
+        <ul>
+          <li>Rate limits (100 API calls/day)</li>
+          <li>Storage caps (500MB)</li>
+          <li>Team size limits (up to 3 members)</li>
+          <li>Remove branding only on paid plans</li>
+          <li>Data retention limits (30 days)</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3 class="p">Usage-Based vs Seat-Based</h3>
+        <ul>
+          <li><span class="a">Seat-based</span>: predictable, easy to understand (Slack, Jira)</li>
+          <li><span class="g">Usage-based</span>: aligns cost with value (AWS, Twilio, OpenAI)</li>
+          <li><span class="b">Hybrid</span>: base fee + usage (Vercel, PlanetScale)</li>
+          <li>Usage-based has higher NRR but harder forecasting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 11 — LICENSE KEYS ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">10</span>
+    <h2>Licensing &amp; License Keys</h2>
+  </div>
+  <p>For desktop software, CLI tools, and self-hosted products, <span class="a">license keys</span> gate access without requiring a full SaaS backend.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">How License Keys Work</h3>
+        <div class="ss-row" style="margin:.2em 0;">
+          <span class="ss-node active">Purchase</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node">Generate Key</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node done">Validate</span>
+        </div>
+        <ul>
+          <li><span class="g">Offline</span>: cryptographically signed tokens (JWT-like)</li>
+          <li><span class="b">Online</span>: phone-home to licensing server</li>
+          <li><span class="p">Hybrid</span>: validate online, cache locally, periodic re-check</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3 class="g">Licensing Platforms</h3>
+        <table>
+          <thead><tr><th>Platform</th><th>Model</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><span class="a">Keygen</span></td><td>API-first licensing</td><td>Developer tools</td></tr>
+            <tr><td><span class="b">Gumroad</span></td><td>Simple digital sales</td><td>Indie products</td></tr>
+            <tr><td><span class="p">LicenseSpring</span></td><td>Enterprise licensing</td><td>B2B desktop software</td></tr>
+            <tr><td><span class="g">Polar.sh</span></td><td>OSS monetisation</td><td>Open-source maintainers</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <h3 class="b" style="font-size:.6em;">Example: Keygen License Validation</h3>
+      <pre><code class="language-javascript">// Validate a license key against Keygen API
+async function validateLicense(key) {
+  const res = await fetch(
+    `https://api.keygen.sh/v1/accounts/${ACCOUNT_ID}/licenses/actions/validate-key`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        meta: { key },
+      }),
+    }
+  );
+  const { meta, data } = await res.json();
+
+  if (meta.valid) {
+    console.log('License valid:', data.attributes.name);
+    return { valid: true, expiry: data.attributes.expiry };
+  } else {
+    console.error('Invalid:', meta.code);
+    return { valid: false, reason: meta.code };
+  }
+}
+
+// On app startup
+const license = await validateLicense(storedKey);
+if (!license.valid) showUpgradeModal();</code></pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 12 — DESKTOP DISTRIBUTION ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">11</span>
+    <h2>Desktop App Distribution</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <table>
+        <thead><tr><th>Framework</th><th>Language</th><th>Bundle Size</th><th>Trade-offs</th></tr></thead>
+        <tbody>
+          <tr><td><span class="b">Electron</span></td><td>JS/TS</td><td>~150MB+</td><td>Mature, heavy, Chromium</td></tr>
+          <tr><td><span class="g">Tauri</span></td><td>Rust + JS/TS</td><td>~5-10MB</td><td>Lightweight, native webview</td></tr>
+          <tr><td><span class="p">Flutter Desktop</span></td><td>Dart</td><td>~20MB</td><td>Cross-platform, growing</td></tr>
+          <tr><td><span class="a">Qt / GTK</span></td><td>C++ / Python</td><td>~30MB</td><td>Native feel, complex build</td></tr>
+        </tbody>
+      </table>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3 class="a">Code Signing</h3>
+        <ul>
+          <li><span class="g">macOS</span>: Apple Developer ID + notarisation ($99/yr)</li>
+          <li><span class="b">Windows</span>: EV Code Signing Certificate (~$300-500/yr)</li>
+          <li><span class="p">Linux</span>: GPG signing for packages</li>
+          <li>Without signing: "unidentified developer" warnings = low install rate</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Auto-updates</h3>
+        <ul>
+          <li><span class="a">electron-updater</span> &mdash; auto-update via GitHub Releases</li>
+          <li><span class="a">Tauri updater</span> &mdash; built-in, lightweight</li>
+          <li><span class="a">Sparkle</span> (macOS) / <span class="a">WinSparkle</span> (Windows)</li>
+          <li>Delta updates to reduce download size</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3 class="p">Distribution Channels</h3>
+        <div class="ss-row">
+          <span class="ss-node active">Build</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node">Sign</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node">Notarise</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node done">Distribute</span>
+        </div>
+        <ul>
+          <li>Direct download from your website</li>
+          <li>Homebrew Cask (macOS)</li>
+          <li>Windows Package Manager (winget)</li>
+          <li>Snap Store / Flatpak (Linux)</li>
+          <li>Mac App Store (sandboxed)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 13 — API MONETISATION ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">12</span>
+    <h2>API Monetisation</h2>
+  </div>
+  <p>APIs are <span class="a">products</span>. Usage-based pricing aligns cost with value and scales naturally.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">API Pricing Models</h3>
+        <table>
+          <thead><tr><th>Model</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><span class="g">Pay-per-call</span></td><td>$0.001 per request (Twilio)</td></tr>
+            <tr><td><span class="b">Tiered quotas</span></td><td>1K free, 10K = $29/mo (Algolia)</td></tr>
+            <tr><td><span class="p">Compute-based</span></td><td>$0.01 per token (OpenAI)</td></tr>
+            <tr><td><span class="a">Flat + overage</span></td><td>$49/mo + $0.01/extra call</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3 class="g">Developer Portal Essentials</h3>
+        <ul>
+          <li>API key management &amp; rotation</li>
+          <li>Interactive docs (Swagger / Redoc)</li>
+          <li>SDKs in popular languages</li>
+          <li>Usage dashboard &amp; billing</li>
+          <li>Rate limit headers in responses</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <h3 class="b" style="font-size:.6em;">Rate Limiting Middleware (Express.js)</h3>
+      <pre><code class="language-javascript">import rateLimit from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
+import { Redis } from 'ioredis';
+
+const redis = new Redis(process.env.REDIS_URL);
+
+// Per-API-key rate limiting
+const apiLimiter = rateLimit({
+  store: new RedisStore({ sendCommand: (...args) =>
+    redis.call(...args) }),
+  windowMs: 60 * 1000,    // 1 minute
+  max: (req) => {
+    // Different limits per plan
+    switch (req.apiPlan) {
+      case 'free':       return 60;
+      case 'pro':        return 600;
+      case 'enterprise': return 6000;
+      default:           return 10;
+    }
+  },
+  keyGenerator: (req) => req.apiKey,
+  standardHeaders: true,  // X-RateLimit-* headers
+  legacyHeaders: false,
+});
+
+app.use('/api/v1', authenticate, apiLimiter);</code></pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 14 — MARKETPLACE DISTRIBUTION ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">13</span>
+    <h2>Marketplace &amp; Platform Distribution</h2>
+  </div>
+  <p>Build on top of existing platforms to <span class="a">tap into their user base</span> and distribution network.</p>
+  <div class="cols cols-2">
+    <div>
+      <table>
+        <thead><tr><th>Platform</th><th>Revenue Split</th><th>Install Base</th><th>Monetisation</th></tr></thead>
+        <tbody>
+          <tr><td><span class="a">Shopify Apps</span></td><td>0% (first $1M)</td><td>4.6M stores</td><td>Subscription or usage</td></tr>
+          <tr><td><span class="b">WordPress Plugins</span></td><td>Varies (marketplace)</td><td>800M+ sites</td><td>Freemium, GPL required</td></tr>
+          <tr><td><span class="p">Slack Apps</span></td><td>0%</td><td>750K+ orgs</td><td>External billing</td></tr>
+          <tr><td><span class="g">Figma Plugins</span></td><td>0%</td><td>4M+ designers</td><td>External billing</td></tr>
+          <tr><td><span class="r">Notion Integrations</span></td><td>0%</td><td>100M+ users</td><td>External billing</td></tr>
+        </tbody>
+      </table>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3 class="p">Strategy: Platform as Distribution</h3>
+        <ul>
+          <li>Build where users already are &mdash; lower acquisition cost</li>
+          <li>Platform handles auth, billing UI, discovery</li>
+          <li><span class="r">Risk</span>: platform dependency, API changes, de-listing</li>
+          <li>Diversify across platforms when possible</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3 class="a">Shopify App Lifecycle</h3>
+        <div class="ss-row" style="margin:.15em 0;">
+          <span class="ss-node active">Build App</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node">App Review</span>
+        </div>
+        <div class="ss-row" style="margin:.15em 0;">
+          <span class="ss-arrow">&darr;</span>
+        </div>
+        <div class="ss-row" style="margin:.15em 0;">
+          <span class="ss-node">List on Store</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node done">Merchants Install</span>
+        </div>
+        <div class="ss-row" style="margin:.15em 0;">
+          <span class="ss-arrow">&darr;</span>
+        </div>
+        <div class="ss-row" style="margin:.15em 0;">
+          <span class="ss-node done">Usage Billing via Shopify API</span>
+        </div>
+        <p style="margin-top:.2em;">Shopify eliminated their 20% rev share for the first $1M &mdash; making it one of the most developer-friendly platforms.</p>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3 class="g">VS Code Extensions</h3>
+        <ul>
+          <li>Free to publish, no revenue share</li>
+          <li>Monetise via premium features + external auth</li>
+          <li>Examples: GitHub Copilot, GitLens, Tabnine</li>
+          <li>Huge reach &mdash; 15M+ VS Code users</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 15 — LANDING PAGES ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">14</span>
+    <h2>Landing Pages &amp; Marketing Basics</h2>
+  </div>
+  <p>You can build the best product in the world &mdash; it doesn't matter if nobody knows it exists.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Landing Page Anatomy</h3>
+        <ul>
+          <li><span class="g">Hero</span>: clear headline + CTA + social proof</li>
+          <li><span class="g">Problem</span>: pain point your product solves</li>
+          <li><span class="g">Solution</span>: how your product fixes it</li>
+          <li><span class="g">Features</span>: 3-5 key capabilities with visuals</li>
+          <li><span class="g">Pricing</span>: transparent tiers</li>
+          <li><span class="g">Testimonials</span>: real users, real quotes</li>
+          <li><span class="g">CTA</span>: repeated call-to-action at bottom</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3 class="g">Tools for Developer-Marketers</h3>
+        <table>
+          <thead><tr><th>Tool</th><th>Best For</th><th>Cost</th></tr></thead>
+          <tbody>
+            <tr><td><span class="a">Next.js</span></td><td>Full control, SEO</td><td>Free + hosting</td></tr>
+            <tr><td><span class="b">Framer</span></td><td>Visual builder, fast</td><td>$5-20/mo</td></tr>
+            <tr><td><span class="p">Carrd</span></td><td>Simple one-pagers</td><td>$19/yr</td></tr>
+            <tr><td><span class="g">Typedream</span></td><td>Notion-like builder</td><td>Free-$15/mo</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Developer Marketing Channels</h3>
+        <ul>
+          <li><span class="a">Content marketing</span> &mdash; blog posts, tutorials, guides</li>
+          <li><span class="b">SEO</span> &mdash; rank for problem-related keywords</li>
+          <li><span class="g">Twitter/X</span> &mdash; build in public, share progress</li>
+          <li><span class="p">Hacker News</span> &mdash; Show HN launches</li>
+          <li><span class="r">Product Hunt</span> &mdash; launch day visibility</li>
+          <li><span class="a">GitHub</span> &mdash; README as marketing, stars as social proof</li>
+          <li><span class="b">YouTube</span> &mdash; demos, tutorials, comparisons</li>
+        </ul>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3 class="r">Common Marketing Mistakes</h3>
+        <ul>
+          <li>Describing features instead of benefits</li>
+          <li>No clear call to action</li>
+          <li>Building for months without talking to users</li>
+          <li>Ignoring SEO &mdash; free long-term traffic</li>
+          <li>Not having a changelog or public roadmap</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 16 — ANALYTICS & METRICS ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">15</span>
+    <h2>Analytics &amp; Metrics That Matter</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <table>
+        <thead><tr><th>Metric</th><th>Formula</th><th>Good Target</th></tr></thead>
+        <tbody>
+          <tr><td><span class="a">MRR</span></td><td>Sum of monthly recurring payments</td><td>Growing month-over-month</td></tr>
+          <tr><td><span class="r">Churn Rate</span></td><td>Lost customers / start-of-period total</td><td>&lt;5% monthly (B2C), &lt;2% (B2B)</td></tr>
+          <tr><td><span class="g">LTV</span></td><td>ARPU / Churn Rate</td><td>&gt;3x CAC</td></tr>
+          <tr><td><span class="b">CAC</span></td><td>Sales + marketing cost / new customers</td><td>LTV:CAC &gt; 3:1</td></tr>
+          <tr><td><span class="p">NRR</span></td><td>(Start MRR + expansion - contraction - churn) / Start MRR</td><td>&gt;100% (ideally &gt;120%)</td></tr>
+          <tr><td><span class="a">Conversion</span></td><td>Paid users / total signups</td><td>2-5% (freemium), 10-20% (trial)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <div class="card amber">
+        <h3 class="a">The Metrics That Actually Matter Early On</h3>
+        <ul>
+          <li><span class="g">Retention</span> &mdash; are people coming back?</li>
+          <li><span class="b">Activation</span> &mdash; do signups reach the "aha" moment?</li>
+          <li><span class="p">Revenue</span> &mdash; will someone pay for this?</li>
+        </ul>
+        <p style="margin-top:.2em;">Vanity metrics (page views, signups, stars) feel good but don't pay bills.</p>
+      </div>
+    </div>
+  </div>
+  <div class="cols cols-3" style="margin-top:.3em;">
+    <div class="card green">
+      <h3 class="g">Product Analytics</h3>
+      <ul>
+        <li>PostHog (open source)</li>
+        <li>Mixpanel</li>
+        <li>Amplitude</li>
+        <li>Plausible (privacy-first)</li>
+      </ul>
+    </div>
+    <div class="card purple">
+      <h3 class="p">Revenue Analytics</h3>
+      <ul>
+        <li>Stripe Dashboard</li>
+        <li>Baremetrics</li>
+        <li>ChartMogul</li>
+        <li>ProfitWell (free)</li>
+      </ul>
+    </div>
+    <div class="card blue">
+      <h3 class="b">The SaaS Rule of 40</h3>
+      <p>Growth rate + profit margin should exceed 40%. A company growing at 50% can afford -10% margins. One growing at 10% needs 30%+ margins.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 17 — LEGAL ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">16</span>
+    <h2>Legal Considerations</h2>
+  </div>
+  <p>Shipping software commercially means <span class="a">legal obligations</span>. Don't skip these.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Documents You Need</h3>
+        <table>
+          <thead><tr><th>Document</th><th>Purpose</th><th>Required?</th></tr></thead>
+          <tbody>
+            <tr><td><span class="g">Terms of Service</span></td><td>Rules of using your product</td><td>Yes</td></tr>
+            <tr><td><span class="b">Privacy Policy</span></td><td>How you handle user data</td><td>Legally required</td></tr>
+            <tr><td><span class="p">Cookie Policy</span></td><td>Cookie consent (EU)</td><td>GDPR/ePrivacy</td></tr>
+            <tr><td><span class="a">DPA</span></td><td>Data Processing Agreement</td><td>B2B / enterprise</td></tr>
+            <tr><td><span class="r">Refund Policy</span></td><td>Consumer protection</td><td>Recommended</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card red" style="margin-top:.3em;">
+        <h3 class="r">GDPR Essentials</h3>
+        <ul>
+          <li>Applies to any EU user, regardless of your location</li>
+          <li>Lawful basis for processing (consent or legitimate interest)</li>
+          <li>Right to access, rectify, delete data</li>
+          <li>72-hour breach notification requirement</li>
+          <li>Fines up to 4% of global revenue</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card green">
+        <h3 class="g">Tax Obligations</h3>
+        <ul>
+          <li><span class="a">US</span>: Sales tax varies by state (Nexus rules)</li>
+          <li><span class="b">EU</span>: VAT on digital services (MOSS/OSS scheme)</li>
+          <li><span class="p">UK</span>: VAT at 20% over &pound;85K threshold</li>
+          <li>Merchant of Record (Paddle, Lemon Squeezy) handles this for you</li>
+          <li>Use <span class="a">Stripe Tax</span> or <span class="g">TaxJar</span> for automated compliance</li>
+        </ul>
+      </div>
+      <div class="card purple" style="margin-top:.3em;">
+        <h3 class="p">Business Entity</h3>
+        <ul>
+          <li><span class="a">Sole trader</span>: simplest, unlimited personal liability</li>
+          <li><span class="g">LLC (US)</span> / <span class="g">Ltd (UK)</span>: limited liability, pass-through tax</li>
+          <li><span class="b">C-Corp (US)</span>: required for VC funding (Delaware)</li>
+          <li>Get a separate business bank account early</li>
+          <li>Consider <span class="p">Stripe Atlas</span> for US LLC formation ($500)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 18 — FREE TO PAID ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">17</span>
+    <h2>Scaling from Free to Paid</h2>
+  </div>
+  <p>The hardest transition: when your free project becomes a real business.</p>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">When to Start Charging</h3>
+        <ul>
+          <li>Users are already getting measurable value</li>
+          <li>You have at least 10 users who would be upset if it disappeared</li>
+          <li>Support burden is growing</li>
+          <li>You need revenue to sustain development</li>
+          <li><span class="r">Don't wait for "perfect"</span> &mdash; charge early, iterate pricing</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3 class="g">Grandfathering Strategies</h3>
+        <ul>
+          <li><span class="a">Lock in price</span> &mdash; early users keep their rate forever</li>
+          <li><span class="b">Generous free tier</span> &mdash; existing users get legacy plan</li>
+          <li><span class="p">Extended trial</span> &mdash; give existing users 6-12 months free</li>
+          <li>Always communicate changes <span class="a">well in advance</span></li>
+          <li>Thank early users &mdash; they took a risk on you</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Migration Playbook</h3>
+        <div class="ss-row" style="margin:.1em 0;">
+          <span class="ss-node active">1. Announce</span>
+        </div>
+        <p style="font-size:.48em; color:#b8b8d0; margin:.1em 0 .1em 1em;">Email users 60+ days before changes</p>
+        <div class="ss-row" style="margin:.1em 0;">
+          <span class="ss-node active">2. Grandfather</span>
+        </div>
+        <p style="font-size:.48em; color:#b8b8d0; margin:.1em 0 .1em 1em;">Give existing users special pricing or extended access</p>
+        <div class="ss-row" style="margin:.1em 0;">
+          <span class="ss-node">3. Introduce Tiers</span>
+        </div>
+        <p style="font-size:.48em; color:#b8b8d0; margin:.1em 0 .1em 1em;">Start with 2-3 simple plans</p>
+        <div class="ss-row" style="margin:.1em 0;">
+          <span class="ss-node done">4. Iterate</span>
+        </div>
+        <p style="font-size:.48em; color:#b8b8d0; margin:.1em 0 .1em 1em;">Adjust pricing based on feedback and data</p>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3 class="b">Real-World Examples</h3>
+        <ul>
+          <li><span class="a">Heroku</span>: killed free tier in 2022 &mdash; backlash, migration to Railway/Fly</li>
+          <li><span class="g">Figma</span>: generous free tier drove adoption before monetising teams</li>
+          <li><span class="p">Notion</span>: free for personal, paid for teams &mdash; viral growth</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 19 — COMMON MISTAKES ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">18</span>
+    <h2>Common Mistakes Indie Developers Make</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card red">
+        <h3 class="r">Building Mistakes</h3>
+        <ul>
+          <li><span class="a">Building without validating</span> &mdash; spending months on something nobody wants</li>
+          <li><span class="b">Over-engineering</span> &mdash; microservices for 10 users</li>
+          <li><span class="g">Not shipping</span> &mdash; perfectionism is the enemy</li>
+          <li><span class="p">Ignoring mobile</span> &mdash; most traffic is mobile now</li>
+          <li><span class="r">No analytics</span> &mdash; flying blind on user behaviour</li>
+        </ul>
+      </div>
+      <div class="card amber" style="margin-top:.3em;">
+        <h3 class="a">Pricing Mistakes</h3>
+        <ul>
+          <li><span class="r">Pricing too low</span> &mdash; $5/mo signals "toy", not "tool"</li>
+          <li><span class="g">Too many tiers</span> &mdash; paradox of choice kills conversion</li>
+          <li><span class="b">No annual discount</span> &mdash; missing low-churn revenue</li>
+          <li><span class="p">Charging per-feature</span> instead of per-value</li>
+          <li>Lifetime deals that kill long-term revenue</li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Distribution Mistakes</h3>
+        <ul>
+          <li><span class="a">No landing page</span> &mdash; sending traffic to a GitHub repo</li>
+          <li><span class="g">No email list</span> &mdash; relying on social media you don't own</li>
+          <li><span class="b">Launching once</span> &mdash; every feature is a launch opportunity</li>
+          <li><span class="r">Ignoring SEO</span> &mdash; the cheapest long-term channel</li>
+          <li>Not building in public &mdash; missing free marketing</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3 class="g">What to Do Instead</h3>
+        <ul>
+          <li><span class="a">Talk to 10 users</span> before writing any code</li>
+          <li><span class="b">Launch in weeks</span>, not months</li>
+          <li><span class="p">Start with one price</span> and increase it until people push back</li>
+          <li><span class="g">Write about your journey</span> &mdash; content compounds</li>
+          <li><span class="r">Charge from day one</span> &mdash; paying users give better feedback</li>
+          <li>Use a Merchant of Record to skip tax complexity</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════ SLIDE 20 — SUMMARY ═══════════════════════════════ -->
+<section data-background-color="#0a0a0f">
+  <div class="slide-hdr">
+    <span class="tag">19</span>
+    <h2>Summary &amp; Further Reading</h2>
+  </div>
+  <div class="cols cols-2">
+    <div>
+      <div class="card amber">
+        <h3 class="a">Key Takeaways</h3>
+        <ul>
+          <li>Distribution model matters as much as the product itself</li>
+          <li><span class="g">SaaS + recurring revenue</span> is the dominant model for a reason</li>
+          <li>Use a <span class="b">Merchant of Record</span> (Paddle, LemonSqueezy) to simplify tax and compliance</li>
+          <li>Open source can be a business strategy, not just charity</li>
+          <li>Validate before building, launch early, iterate pricing</li>
+          <li><span class="p">LTV:CAC > 3:1</span> and <span class="r">churn &lt; 5%</span> are your north stars</li>
+        </ul>
+      </div>
+      <div class="card green" style="margin-top:.3em;">
+        <h3 class="g">The Distribution Spectrum</h3>
+        <div class="ss-row" style="margin:.15em 0;">
+          <span class="ss-node active">Open Source</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node">Freemium</span>
+          <span class="ss-arrow">&rarr;</span>
+          <span class="ss-node done">Paid SaaS</span>
+        </div>
+        <p>Most successful products <span class="a">combine</span> free distribution with paid monetisation. Give away what builds trust. Charge for what creates ROI.</p>
+      </div>
+    </div>
+    <div>
+      <div class="card purple">
+        <h3 class="p">Further Reading</h3>
+        <ul>
+          <li><span class="a">"Deploy Empathy"</span> by Michele Hansen &mdash; customer research</li>
+          <li><span class="g">"The Mom Test"</span> by Rob Fitzpatrick &mdash; validating ideas</li>
+          <li><span class="b">"Indie Hackers"</span> &mdash; community of bootstrapped founders</li>
+          <li><span class="p">Stripe Docs</span> &mdash; best-in-class payment integration guide</li>
+          <li><span class="r">choosealicense.com</span> &mdash; pick the right open source license</li>
+          <li><span class="a">"Working in Public"</span> by Nadia Eghbal &mdash; open source economics</li>
+          <li><span class="g">SaaS Playbook</span> by Rob Walling &mdash; pricing and growth</li>
+        </ul>
+      </div>
+      <div class="card blue" style="margin-top:.3em;">
+        <h3 class="b">Tools Mentioned</h3>
+        <div style="display:flex; gap:.3em; flex-wrap:wrap; margin-top:.15em;">
+          <span class="pill amber">Stripe</span>
+          <span class="pill green">Paddle</span>
+          <span class="pill purple">LemonSqueezy</span>
+          <span class="pill blue">Keygen</span>
+          <span class="pill amber">Tauri</span>
+          <span class="pill green">PostHog</span>
+          <span class="pill purple">Clerk</span>
+          <span class="pill blue">Vercel</span>
+          <span class="pill amber">Framer</span>
+          <span class="pill green">Stripe Atlas</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/plugin/highlight/highlight.min.js"></script>
+<script>
+Reveal.initialize({
+  hash: true,
+  slideNumber: 'c/t',
+  transition: 'fade',
+  transitionSpeed: 'fast',
+  controls: true,
+  progress: true,
+  center: false,
+  width: 1100,
+  height: 900,
+  margin: 0.01,
+  plugins: [RevealHighlight],
+  highlight: { theme: 'monokai' }
+});
+</script>
+<script>
+(function(){
+  var h = Reveal.getConfig().height || 900;
+  var m = Reveal.getConfig().margin || 0.02;
+  var maxH = Math.floor(h * (1 - 2 * m)) + 'px';
+  function fixSlides(){
+    document.querySelectorAll('.reveal .slides>section,.reveal .slides>section>section').forEach(function(s){
+      s.style.display = 'block';
+      s.style.maxHeight = maxH;
+    });
+  }
+  Reveal.on('ready', fixSlides);
+  Reveal.on('slidechanged', fixSlides);
+})();
+</script>
+</body>
+</html>

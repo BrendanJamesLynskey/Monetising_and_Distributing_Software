@@ -43,6 +43,13 @@ An interactive Reveal.js presentation on turning code into a product — SaaS ar
 | Fullscreen | `F` |
 | Export to PDF | Append `?print-pdf` to URL, then print |
 
+## See also
+
+- [Cloud_aaS_04_SaaS_Architecture](https://github.com/BrendanJamesLynskey/Cloud_aaS_04_SaaS_Architecture) — the architectural side of SaaS (multi-tenancy patterns, B2B identity, metering data model, per-tenant observability) that this deck's *business* side rests on.
+- [Cloud_aaS_01_Service_Models](https://github.com/BrendanJamesLynskey/Cloud_aaS_01_Service_Models) — the *aaS taxonomy.
+- Series hub: [Cloud `*aaS`](https://github.com/BrendanJamesLynskey/Cloud_aaS_Hub).
+- Companion: [Introduction to OAuth](https://github.com/BrendanJamesLynskey/Introduction_to_OAuth) · [Web Authentication](https://github.com/BrendanJamesLynskey/Introduction_to_Web_Authentication).
+
 ## Technology
 
 [Reveal.js 4.6](https://revealjs.com) · [highlight.js](https://highlightjs.org) · Playfair Display + DM Sans + JetBrains Mono
